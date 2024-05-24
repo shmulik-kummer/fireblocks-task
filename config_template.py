@@ -1,7 +1,7 @@
 # Configuration values (use placeholder values)
 TREASURY_ACCOUNT_ID = 2
 EXPENSE_ACCOUNT_ID = 1
-ASSET_ID = "YOUR_ASSET_ID"
+ASSET_ID = "AMOY_POLYGON_TEST"
 BALANCE_THRESHOLD = 0.3
 
 # Fireblocks SDK configuration
