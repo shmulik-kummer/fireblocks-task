@@ -70,7 +70,7 @@ def handle_low_balance(balance):
         subject = "Top-Up Transaction Created"
         body = (f"A top-up transaction has been created to transfer {amount_to_transfer} MATIC from the treasury "
                 f"account to the expense account.")
-        send_email_notification(subject, body, "kummersh@gmail.com")
+        send_email_notification(subject, body, config.EMAIL)
 
         return jsonify({"status": "success", "transaction": transaction}), 200
     else:
