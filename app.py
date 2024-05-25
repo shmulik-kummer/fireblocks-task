@@ -2,6 +2,7 @@ from fireblocks_sdk import FireblocksSDK
 from flask import Flask
 import config
 from routes import routes
+import logging_config
 
 app = Flask(__name__)
 
@@ -17,5 +18,6 @@ fireblocks = FireblocksSDK(config.API_SECRET, config.API_KEY, config.API_URL)
 # Register Blueprints
 app.register_blueprint(routes)
 
+
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(host='0.0.0.0', debug=False, port=5000)
