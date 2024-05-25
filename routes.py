@@ -21,7 +21,8 @@ def webhook():
     # Proceed only if the status is COMPLETED and subStatus is CONFIRMED
     if is_transaction_completed(data):
         logger.info("Confirmed transaction Webhook received: %s", data)
-        logger.info("Going to check the balance of the expense account")
+        logger.info("Going to check the balance of the expense a"
+                    "ccount")
 
         # Check the balance of the expense account
         expense_balance = get_wallet_balance(config.EXPENSE_ACCOUNT_ID, config.ASSET_ID)
