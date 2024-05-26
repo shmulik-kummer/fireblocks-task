@@ -47,6 +47,19 @@ This project is designed to interface with the Fireblocks platform, receiving we
     `pip install -r requirements.txt`
 
 ## Configuration
-1. **API Key**: follow fireblock docs for instructions on how to generate the API user key.
-2. **Private key**: 
-3. Environment Variables: Update the config.py file with your specific configuration settings, including the expense account IDs and thresholds.
+The app configuration is stored on a config.py file. after cloing the project, please rename the _config_template.py_ file to _config.py_ and add the following properties:
+
+1. **API_URL** - Use 'https://api.fireblocks.io' for testing enviorment.
+2. **API_KEY**: A secured API key should be provided in each API request. click here for additional information about API key creation
+3. **API_SECRET_PATH**: The key is created as part of the API key process. Please provide the file path. uncomment the following line:
+
+     `with open(API_SECRET_PATH, 'r') as file:
+       API_SECRET = file.read()`
+
+4. **TREASURY_ACCOUNT_ID** - The treasury account ID
+5. **EXPENSE_ACCOUNT_ID** - The expanse account id
+6. **ASSET_ID** = The asset type. for testing purposes use "AMOY_POLYGON_TEST"
+7. **BALANCE_THRESHOLD** = The expanse account balance threshold (balance below will trigger a top-up attempt)
+
+
+
