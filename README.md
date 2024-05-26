@@ -16,7 +16,7 @@
 
 ## Overview
 
-This project is designed to interface with the Fireblocks platform, receiving webhook notifications about transactions. When an expense account's balance drops below a specified threshold, the application initiates a top-up transaction from a treasury account to maintain sufficient funds in the expense accounts..
+This project is designed to interface with the Fireblocks platform, receiving webhook notifications about transactions. When an expense account's balance drops below a specified threshold, the application initiates a top-up transaction from a treasury account to maintain sufficient funds in the expense accounts.
 
 ## Features
 
