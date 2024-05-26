@@ -18,6 +18,6 @@ fireblocks = FireblocksSDK(config.API_SECRET, config.API_KEY, config.API_URL)
 # Register Blueprints
 app.register_blueprint(routes)
 
-
+# Start flask server
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=5000)

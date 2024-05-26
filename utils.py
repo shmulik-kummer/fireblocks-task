@@ -14,6 +14,18 @@ logger = logging.getLogger(__name__)
 
 
 def get_wallet_balance(vault_account_id, asset_id):
+    """
+       Retrieve the balance of a specific asset in a Fireblocks vault account.
+
+       Args:
+           vault_account_id (int): The ID of the vault account.
+           asset_id (str): The ID of the asset.
+
+       Returns:
+           float: The balance of the asset in the vault account.
+           None: If there is an error retrieving the balance.
+       """
+
     try:
         asset_info = fireblocks.get_vault_account_asset(vault_account_id, asset_id)
         balance = asset_info.get("balance")
@@ -30,6 +42,19 @@ def get_wallet_balance(vault_account_id, asset_id):
 
 
 def create_transaction(asset_id, amount, src_id, dest_id):
+    """
+        Create a transaction to transfer an asset from one vault account to another.
+
+        Args:
+            asset_id (str): The ID of the asset to transfer.
+            amount (float): The amount of the asset to transfer.
+            src_id (int): The source vault account ID.
+            dest_id (int): The destination vault account ID.
+
+        Returns:
+            dict: The transaction result from Fireblocks.
+            None: If there is an error creating the transaction.
+        """
     try:
         tx_result = fireblocks.create_transaction(
             asset_id=asset_id,
@@ -45,11 +70,31 @@ def create_transaction(asset_id, amount, src_id, dest_id):
 
 
 def is_transaction_completed(data):
+    """
+        Check if a transaction is completed and confirmed.
+
+        Args:
+            data (dict): The webhook data from Fireblocks.
+
+        Returns:
+            bool: True if the transaction is completed and confirmed, False otherwise.
+        """
     return data.get("data", {}).get("status") == "COMPLETED" and data.get("data", {}).get("subStatus") == "CONFIRMED"
 
 
 # utils.py
 def handle_low_balance(wallet_id, balance, threshold):
+    """
+        Handle low balance in an expense wallet by transferring funds from the treasury account.
+
+        Args:
+            wallet_id (int): The ID of the expense wallet.
+            balance (float): The current balance of the expense wallet.
+            threshold (float): The minimum threshold balance for the expense wallet.
+
+        Returns:
+            bool: True if the top-up transaction was created successfully, False otherwise.
+        """
     amount_to_transfer = float(threshold - balance)
 
     # Check treasury balance to verify top-up transaction is possible
@@ -81,14 +126,18 @@ def handle_low_balance(wallet_id, balance, threshold):
         return False
 
 
-def check_treasury_balance(amount_to_transfer):
-    treasury_balance = get_wallet_balance(config.TREASURY_ACCOUNT_ID, config.ASSET_ID)
-    if treasury_balance < amount_to_transfer:
-        logger.info("no enough funds in treasury account to perform top up")
-        return False
-
-
 def send_email_notification(subject, body, to_email):
+    """
+        Send an email notification to a Gmail account
+
+        Args:
+            subject (str): The subject of the email.
+            body (str): The body of the email.
+            to_email (str): The recipient's email address.
+
+        Returns:
+            None
+        """
     from_email = config.EMAIL
     from_password = config.EMAIL_APP_PASSWORD
 

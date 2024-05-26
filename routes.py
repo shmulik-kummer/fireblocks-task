@@ -11,13 +11,28 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/', methods=['GET'])
 def root():
+    """
+    Root endpoint for the Fireblocks app.
+
+    Returns:
+        str: A welcome message.
+    """
     return "Hello from Fireblocks app"
 
 
 @routes.route('/webhook', methods=['POST'])
 def webhook():
+    """
+        Webhook endpoint to handle transactional events from Fireblocks.
+
+        This function processes webhook events, checks the balance of multiple expense accounts,
+        and initiates a top-up transaction if any expanse account balance is below the specified threshold.
+
+        Returns:
+            Response: JSON response indicating the result of the webhook processing.
+        """
+
     data = request.json
-    print(f"Data = {data} ")
     logger.info(f"Transactional webhook event received: {data}")
 
     # Proceed only if the status is COMPLETED and subStatus is CONFIRMED
