@@ -27,6 +27,21 @@ This project is designed to interface with the Fireblocks platform, receiving we
 - Tops up expense accounts from a treasury account if their balance is below the threshold.
 - Logs all relevant activities for monitoring and debugging.
 
+## Project structure
+
+```
+fireblocks-task/
+  ├── app.py               # Main application entry point
+  ├── config.py            # Configuration settings
+  ├── fireblocks_utils.py  # Fireblocks SDK wrapper functions
+  ├── logging_config.py    # Logging configuration
+  ├── requirements.txt     # Python dependencies
+  ├── routes.py            # Flask routes
+  ├── utils.py             # Utility functions
+  └── README.md            # Project documentation
+  ```
+
+
 ## Setup
 
 ### Prerequisites
@@ -61,5 +76,6 @@ The app configuration is stored on a config.py file. after cloing the project, p
 6. **ASSET_ID** = The asset type. for testing purposes use "AMOY_POLYGON_TEST"
 7. **BALANCE_THRESHOLD** = The expanse account balance threshold (balance below will trigger a top-up attempt)
 
-
+## Logging
+The application uses Python's built-in logging module to log various events. Logs are configured in the _logging_config.py_ file to output to both the console and a file named _app.log_.
 
