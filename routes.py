@@ -33,7 +33,6 @@ def webhook():
         """
 
     data = request.json
-    logger.info(f"Transactional webhook event received: {data}")
 
     # Proceed only if the status is COMPLETED and subStatus is CONFIRMED
     if is_transaction_completed(data):
