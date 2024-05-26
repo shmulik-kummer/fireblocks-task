@@ -1,7 +1,5 @@
 # Fireblocks Task
 
-This repository contains a Flask-based application that processes webhook events from the Fireblocks platform. The application checks the balance of specified expense accounts and tops them up from a treasury account if their balance falls below a predefined threshold.
-
 ## Table of Contents
 
 - [Overview](#overview)
@@ -23,7 +21,7 @@ This project is designed to interface with the Fireblocks platform, receiving we
 ## Features
 
 - Receives webhook notifications from Fireblocks.
-- Checks balances of multiple expense accounts.
+- Check the balance of the expanse account.
 - Tops up expense accounts from a treasury account if their balance is below the threshold.
 - Logs all relevant activities for monitoring and debugging.
 
@@ -62,6 +60,7 @@ fireblocks-task/
     `pip install -r requirements.txt`
 
 ## Configuration
+
 The app configuration is stored on a config.py file. after cloing the project, please rename the _config_template.py_ file to _config.py_ and add the following properties:
 
 1. **API_URL** - Use 'https://api.fireblocks.io' for testing enviorment.
@@ -75,6 +74,16 @@ The app configuration is stored on a config.py file. after cloing the project, p
 5. **EXPENSE_ACCOUNT_ID** - The expanse account id
 6. **ASSET_ID** = The asset type. for testing purposes use "AMOY_POLYGON_TEST"
 7. **BALANCE_THRESHOLD** = The expanse account balance threshold (balance below will trigger a top-up attempt)
+
+## Usage
+1. **Configure Webhook URL** - Set the webhook URL in your Fireblocks dashboard to point to your instance URL. click [here](https://developers.fireblocks.com/docs/webhooks-notifications#configuring-webhook-urls) for detailed information on how to configure webhooks on the Fireblocks platform
+
+* **Important** - Each webhook URL must be a complete, globally available HTTPS address.
+
+2. Run the Flask application
+   
+    `python app.py`
+
 
 ## Logging
 The application uses Python's built-in logging module to log various events. Logs are configured in the _logging_config.py_ file to output to both the console and a file named _app.log_.
