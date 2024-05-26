@@ -18,7 +18,7 @@ def get_wallet_balance(vault_account_id, asset_id):
         asset_info = fireblocks.get_vault_account_asset(vault_account_id, asset_id)
         balance = asset_info.get("balance")
         if balance is not None:
-            formatted_balance = f"{float(balance):.4f}"
+            formatted_balance = f"{float(balance):.6f}"
             logger.info(f"Current Balance for account id {vault_account_id} is {formatted_balance} {asset_id}")
             return float(formatted_balance)
         else:
@@ -48,35 +48,37 @@ def is_transaction_completed(data):
     return data.get("data", {}).get("status") == "COMPLETED" and data.get("data", {}).get("subStatus") == "CONFIRMED"
 
 
-def handle_low_balance(balance):
-    # amount_to_transfer = round(config.BALANCE_THRESHOLD - balance, 3)
-    amount_to_transfer = float(config.BALANCE_THRESHOLD - balance)
+# utils.py
+def handle_low_balance(wallet_id, balance, threshold):
+    amount_to_transfer = float(threshold - balance)
 
-    # Check treasury balance to verify top up transaction is possible
+    # Check treasury balance to verify top-up transaction is possible
     treasury_balance = get_wallet_balance(config.TREASURY_ACCOUNT_ID, config.ASSET_ID)
-    if treasury_balance < amount_to_transfer:
+    if treasury_balance is None or treasury_balance < amount_to_transfer:
         logger.error("Not enough funds in treasury account to perform top-up")
-        return jsonify({"status": "failure", "message": "Not enough funds in treasury account to perform top-up"}), 200
+        return False
 
-    # Initiate top up transaction"
+    # Initiate top-up transaction
     logger.info(
-        f"Expense account reached the minimum threshold. Going to top up account with {amount_to_transfer:.4f} MATIC")
+        f"Expense account {wallet_id} reached the minimum threshold. Going to top up account with {amount_to_transfer:.6f} MATIC")
     transaction = create_transaction(asset_id=config.ASSET_ID, amount=amount_to_transfer,
                                      src_id=config.TREASURY_ACCOUNT_ID,
-                                     dest_id=config.EXPENSE_ACCOUNT_ID)
+                                     dest_id=wallet_id)
     if transaction:
         logger.info("Transaction was created successfully. Waiting for it to be confirmed")
 
         # Send email notification
         subject = "Top-Up Transaction Created"
         body = (f"A top-up transaction has been created to transfer {amount_to_transfer} MATIC from the treasury "
-                f"account to the expense account.")
+                f"account to the expense account {wallet_id}.")
         send_email_notification(subject, body, config.EMAIL)
 
-        return jsonify({"status": "success", "transaction": transaction}), 200
+        logger.info("transaction created successfully")
+        return True
+
     else:
         logger.error("Failed to create transaction")
-        return jsonify({"status": "failure", "message": "Failed to create transaction"}), 200
+        return False
 
 
 def check_treasury_balance(amount_to_transfer):

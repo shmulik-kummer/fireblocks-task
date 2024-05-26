@@ -16,26 +16,35 @@ def root():
 
 @routes.route('/webhook', methods=['POST'])
 def webhook():
-    webhook_data = request.json
+    data = request.json
+    print(f"Data = {data} ")
+    logger.info(f"Transactional webhook event received: {data}")
 
     # Proceed only if the status is COMPLETED and subStatus is CONFIRMED
-    if is_transaction_completed(webhook_data):
+    if is_transaction_completed(data):
+        logger.info("Confirmed transaction Webhook received: %s", data)
+        logger.info("Going to check the balance of the expense accounts")
 
-        # Pretty-print the JSON data
-        pretty_data = json.dumps(webhook_data, indent=4)
+        responses = []
+        for wallet in config.EXPENSE_WALLETS:
+            wallet_id = wallet['id']
+            threshold = wallet['threshold']
+            logger.info(f"Checking balance for expense account ID {wallet_id}")
 
-        logger.info("Confirmed transaction Webhook received: %s", pretty_data)
-        logger.info("Going to check the balance of the expense a"
-                    "ccount")
+            # Check the balance of the expense account
+            expense_balance = get_wallet_balance(wallet_id, config.ASSET_ID)
 
-        # Check the balance of the expense account
-        expense_balance = get_wallet_balance(config.EXPENSE_ACCOUNT_ID, config.ASSET_ID)
+            # If balance is below the threshold, create a transaction
+            if expense_balance < threshold:
+                handle_balance = handle_low_balance(wallet_id, expense_balance, threshold)
+                if not handle_balance:
+                    responses.append(
+                        {"status": "failed", "message": f"Failed to top up wallet ID {wallet_id}"}), 200
 
-        # If balance is below the threshold, create a transaction
-        if expense_balance < config.BALANCE_THRESHOLD:
-            return handle_low_balance(balance=expense_balance)
+            else:
+                logger.info(f"Balance is sufficient for wallet ID {wallet_id}")
+                responses.append({"status": "success", "message": f"Balance is sufficient for wallet ID {wallet_id}"})
 
-        logger.info("Balance is sufficient")
-        return jsonify({"status": "success", "message": "Balance is sufficient"}), 200
+        return jsonify(responses)
 
     return jsonify({"status": "received", "message": "Waiting for completed transaction webhook"}), 200
