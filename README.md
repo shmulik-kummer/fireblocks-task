@@ -20,9 +20,9 @@ This project is designed to interface with the Fireblocks platform, receiving we
 
 ## Features
 
-- Receives webhook notifications from Fireblocks.
-- Check the balance of the expanse account.
-- Tops up expense accounts from a treasury account if their balance is below the threshold.
+- Receives Transactional webhook notifications from Fireblocks platform
+- Check the balance of the expanse accounts (support multiple accounts)
+- Tops up expense accounts from a treasury account if their balance is below the threshold
 - Logs all relevant activities for monitoring and debugging.
 
 ## Project structure
@@ -61,9 +61,9 @@ fireblocks-task/
 
 ## Configuration
 
-The app configuration is stored on a config.py file. after cloing the project, please rename the _config_template.py_ file to _config.py_ and add the following properties:
+The app configuration is stored on a config.py file. after cloning the project, please rename the _config_template.py_ file to _config.py_ and add the following properties:
 
-1. **API_URL** - Use 'https://api.fireblocks.io' for testing enviorment.
+1. **API_URL** - Use 'https://api.fireblocks.io' for testing environment.
 2. **API_KEY**: A secured API key should be provided in each API request. click here for additional information about API key creation
 3. **API_SECRET_PATH**: The key is created as part of the API key process. Please provide the file path. uncomment the following line:
 
@@ -71,8 +71,8 @@ The app configuration is stored on a config.py file. after cloing the project, p
        API_SECRET = file.read()`
 
 4. **TREASURY_ACCOUNT_ID** - The treasury account ID
-5. **EXPENSE_ACCOUNT_ID** - The expanse account id
-6. **ASSET_ID** = The asset type. for testing purposes use "AMOY_POLYGON_TEST"
+5. **EXPENSE_ACCOUNTS** - The expanse account ids (array of id and threshold value objects)
+6. **ASSET_ID** = The asset type. for testing purposes use "_AMOY_POLYGON_TEST_"
 7. **BALANCE_THRESHOLD** = The expanse account balance threshold (balance below will trigger a top-up attempt)
 
 ## Usage

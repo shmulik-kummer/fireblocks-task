@@ -105,7 +105,8 @@ def handle_low_balance(wallet_id, balance, threshold):
 
     # Initiate top-up transaction
     logger.info(
-        f"Expense account {wallet_id} reached the minimum threshold. Going to top up account with {amount_to_transfer:.6f} MATIC")
+        f"Expense account {wallet_id} reached the minimum threshold. Going to top up account with"
+        f" {amount_to_transfer:.6f} MATIC")
     transaction = create_transaction(asset_id=config.ASSET_ID, amount=amount_to_transfer,
                                      src_id=config.TREASURY_ACCOUNT_ID,
                                      dest_id=wallet_id)
