@@ -114,10 +114,10 @@ def handle_low_balance(wallet_id, balance, threshold):
         logger.info("Transaction was created successfully. Waiting for it to be confirmed")
 
         # Send email notification
-        # subject = "Top-Up Transaction Created"
-        # body = (f"A top-up transaction has been created to transfer {amount_to_transfer} MATIC from the treasury "
-        #         f"account to the expense account {wallet_id}.")
-        # send_email_notification(subject, body, config.EMAIL)
+        subject = "Top-Up Transaction Created"
+        body = (f"A top-up transaction has been created to transfer {amount_to_transfer} MATIC from the treasury "
+                f"account to the expense account {wallet_id}.")
+        send_email_notification(subject, body, config.EMAIL)
 
         return True
 
