@@ -18,7 +18,7 @@ def get_wallet_balance(vault_account_id, asset_id):
         asset_info = fireblocks.get_vault_account_asset(vault_account_id, asset_id)
         balance = asset_info.get("balance")
         if balance is not None:
-            formatted_balance = f"{float(balance):.3f}"
+            formatted_balance = f"{float(balance):.4f}"
             logger.info(f"Current Balance for account id {vault_account_id} is {formatted_balance} {asset_id}")
             return float(formatted_balance)
         else:
@@ -49,7 +49,8 @@ def is_transaction_completed(data):
 
 
 def handle_low_balance(balance):
-    amount_to_transfer = round(config.BALANCE_THRESHOLD - balance, 3)
+    # amount_to_transfer = round(config.BALANCE_THRESHOLD - balance, 3)
+    amount_to_transfer = float(config.BALANCE_THRESHOLD - balance)
 
     # Check treasury balance to verify top up transaction is possible
     treasury_balance = get_wallet_balance(config.TREASURY_ACCOUNT_ID, config.ASSET_ID)
@@ -57,9 +58,9 @@ def handle_low_balance(balance):
         logger.error("Not enough funds in treasury account to perform top-up")
         return jsonify({"status": "failure", "message": "Not enough funds in treasury account to perform top-up"}), 200
 
-    # Initiate top up transaction
+    # Initiate top up transaction"
     logger.info(
-        f"Expense account reached the minimum threshold. Going to top up account with {amount_to_transfer} MATIC")
+        f"Expense account reached the minimum threshold. Going to top up account with {amount_to_transfer:.4f} MATIC")
     transaction = create_transaction(asset_id=config.ASSET_ID, amount=amount_to_transfer,
                                      src_id=config.TREASURY_ACCOUNT_ID,
                                      dest_id=config.EXPENSE_ACCOUNT_ID)

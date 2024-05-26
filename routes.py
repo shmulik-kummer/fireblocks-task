@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 import config
 from utils import get_wallet_balance, create_transaction, is_transaction_completed, handle_low_balance
 import logging
-
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -16,11 +16,15 @@ def root():
 
 @routes.route('/webhook', methods=['POST'])
 def webhook():
-    data = request.json
+    webhook_data = request.json
 
     # Proceed only if the status is COMPLETED and subStatus is CONFIRMED
-    if is_transaction_completed(data):
-        logger.info("Confirmed transaction Webhook received: %s", data)
+    if is_transaction_completed(webhook_data):
+
+        # Pretty-print the JSON data
+        pretty_data = json.dumps(webhook_data, indent=4)
+
+        logger.info("Confirmed transaction Webhook received: %s", pretty_data)
         logger.info("Going to check the balance of the expense a"
                     "ccount")
 
