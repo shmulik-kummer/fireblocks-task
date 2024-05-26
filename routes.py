@@ -3,7 +3,7 @@ import config
 from utils import get_wallet_balance, create_transaction, is_transaction_completed, handle_low_balance
 import logging
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 routes = Blueprint('routes', __name__)
