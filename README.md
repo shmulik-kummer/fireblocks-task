@@ -30,8 +30,7 @@ This project is designed to interface with the Fireblocks platform, receiving we
 ```
 fireblocks-task/
   ├── app.py               # Main application entry point
-  ├── config.py            # Configuration settings
-  ├── fireblocks_utils.py  # Fireblocks SDK wrapper functions
+  ├── config_templatr.py   # Configuration settings template file
   ├── logging_config.py    # Logging configuration
   ├── requirements.txt     # Python dependencies
   ├── routes.py            # Flask routes
