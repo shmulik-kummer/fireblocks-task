@@ -65,7 +65,7 @@ fireblocks-task/
 
 There are two dependencies to be installed:
 1. Flask
-2. fireblocks SDK - please click [here](https://developers.fireblocks.com/docs/python-guide) for the Python guide.
+2. Fireblocks SDK - please click [here](https://developers.fireblocks.com/docs/python-guide) for the Python guide.
 
 ## Configuration
 
