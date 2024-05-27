@@ -40,7 +40,7 @@ def webhook():
         logger.info("Going to check the balance of the expense accounts")
 
         responses = []
-        for wallet in config.EXPENSE_WALLETS:
+        for wallet in config.EXPENSE_ACCOUNT_IDS:
             wallet_id = wallet['id']
             threshold = wallet['threshold']
             logger.info(f"Checking balance for expense account ID {wallet_id}")

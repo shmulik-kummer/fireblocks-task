@@ -1,13 +1,15 @@
-# Configuration values (use placeholder values)
-TREASURY_ACCOUNT_ID = 2
-EXPENSE_ACCOUNT_ID = 1
+# Configuration values
+TREASURY_ACCOUNT_ID = "ID"
 ASSET_ID = "AMOY_POLYGON_TEST"
-BALANCE_THRESHOLD = 0.3
+EXPENSE_ACCOUNT_IDS = [
+    {'id': "ID", 'threshold': 0.3},
+    # Add additional wallets if needed
+]
 
 # Fireblocks SDK configuration
 API_KEY = 'YOUR_API_KEY'
 API_SECRET_PATH = 'path/to/your/fireblocks_secret.key'
-API_URL = 'https://api.fireblocks.io'
+API_URL = 'FIREBLOCKS ENDPOINT (use https://api.fireblocks.io for testing)'
 
 # Gmail config
 EMAIL = "USER_EMAIL"
