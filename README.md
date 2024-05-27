@@ -30,7 +30,7 @@ This project is designed to interface with the Fireblocks platform, receiving we
 ```
 fireblocks-task/
   ├── app.py               # Main application entry point
-  ├── config_templatr.py   # Configuration settings template file
+  ├── config_template.py   # Configuration settings template file
   ├── logging_config.py    # Logging configuration
   ├── requirements.txt     # Python dependencies
   ├── routes.py            # Flask routes
@@ -38,6 +38,11 @@ fireblocks-task/
   └── README.md            # Project documentation
   ```
 
+## Flow
+1. **Initialization** - The application starts with app.py, setting up the Flask server. Configuration settings are loaded from _config.py_.
+2. **Receiving Webhooks** - The app listen to transactional webhooks events from the Fireblocks platform.
+3. **Balance Check** - When a confirmed transaction webhook received, the app check each of the expense account balance.
+4. **Top-Up Initiation:** - If expense account balance is below the threshold and the treasury account has enough fund to process, it will initiate a transaction to balance the account.
 
 ## Setup
 
@@ -58,21 +63,25 @@ fireblocks-task/
 
     `pip install -r requirements.txt`
 
+There are two dependencies to be installed:
+1. Flask
+2. fireblocks SDK - please click [here](https://developers.fireblocks.com/docs/python-guide) for the Python guide.
+
 ## Configuration
 
 The app configuration is stored on a config.py file. after cloning the project, please rename the _config_template.py_ file to _config.py_ and add the following properties:
 
 1. **API_URL** - Use 'https://api.fireblocks.io' for testing environment.
-2. **API_KEY**: A secured API key should be provided in each API request. click here for additional information about API key creation
-3. **API_SECRET_PATH**: The key is created as part of the API key process. Please provide the file path. uncomment the following line:
+2. **API_KEY**: A secured API key should be provided in each API request. click [here](https://developers.fireblocks.com/docs/quickstart#step-1-generate-a-csr-file) for additional information about API key creation
+3. **API_SECRET_PATH**: The key is created as part of the API key creation process. Please provide the file path. uncomment the following line:
 
      `with open(API_SECRET_PATH, 'r') as file:
        API_SECRET = file.read()`
 
 4. **TREASURY_ACCOUNT_ID** - The treasury account ID
-5. **EXPENSE_ACCOUNTS** - The expanse account ids (array of id and threshold value objects)
+5. **EXPENSE_ACCOUNTS** - The expense account ids (array of id and threshold value objects)
 6. **ASSET_ID** = The asset type. for testing purposes use "_AMOY_POLYGON_TEST_"
-7. **BALANCE_THRESHOLD** = The expanse account balance threshold (balance below will trigger a top-up attempt)
+7. **BALANCE_THRESHOLD** = The expense account balance threshold (balance below will trigger a top-up attempt)
 
 ## Usage
 1. **Configure Webhook URL** - Set the webhook URL in your Fireblocks dashboard to point to your instance URL. click [here](https://developers.fireblocks.com/docs/webhooks-notifications#configuring-webhook-urls) for detailed information on how to configure webhooks on the Fireblocks platform
