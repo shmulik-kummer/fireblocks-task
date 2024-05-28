@@ -81,7 +81,6 @@ The app configuration is stored on a config.py file. after cloning the project, 
 4. **TREASURY_ACCOUNT_ID** - The treasury account ID
 5. **EXPENSE_ACCOUNTS** - The expense account ids (array of id and threshold value objects)
 6. **ASSET_ID** = The asset type. for testing purposes use "_AMOY_POLYGON_TEST_"
-7. **BALANCE_THRESHOLD** = The expense account balance threshold (balance below will trigger a top-up attempt)
 
 ## Usage
 1. **Configure Webhook URL** - Set the webhook URL in your Fireblocks dashboard to point to your instance URL. click [here](https://developers.fireblocks.com/docs/webhooks-notifications#configuring-webhook-urls) for detailed information on how to configure webhooks on the Fireblocks platform
